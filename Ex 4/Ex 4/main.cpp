@@ -54,6 +54,51 @@ void translation(float P[3][1] , float tx , float ty , float newP[3][1])
     matrixMul(transmatrix , P , newP);
 }
 
+void reflection(float P[3][1] , float newP[3][1] , int ch)
+{
+    float refmatrix[3][3] = {0,0,0,0,0,0,0,0,1};
+
+    switch(ch)
+    {
+        case 1:
+            refmatrix[0][0] = 1;
+            refmatrix[1][1] = -1;
+            matrixMul(refmatrix, P, newP);
+            break;
+        case 2:
+            refmatrix[0][0] = -1;
+            refmatrix[1][1] = 1;
+            matrixMul(refmatrix, P, newP);
+            break;
+        default:
+            cout<<"\nEnter valid choice";
+            break;
+    }
+}
+
+
+void shear(float P[3][1] , float newP[3][1] , int ch ,float sh, float yref)
+{
+    float refmatrix[3][3] = {{1,0,0},{0,1,0},{0,0,1}};
+    
+    switch(ch)
+    {
+        case 1:
+            refmatrix[0][1] = sh;
+            refmatrix[0][2] = -1*sh*yref;
+            matrixMul(refmatrix, P, newP);
+            break;
+        case 2:
+            refmatrix[1][0] = sh;
+            refmatrix[1][2] = -1*sh*yref;
+            matrixMul(refmatrix, P, newP);
+            break;
+        default:
+            cout<<"\nEnter valid choice";
+            break;
+    }
+}
+
 void scaling(float P[3][1] , float sx , float sy , float newP[3][1])
 {
     float scalematrix[3][3] = {{sx,0,0} , {0,sy,0} , {0,0,1}};
@@ -101,8 +146,9 @@ void Func()
     glEnd();
     glFlush();
     
-    cout << "\n1.Translation\n2.Rotation\n3.Scale\nChoice : ";
+    cout << "\n1.Translation\n2.Rotation\n3.Scale\n4.Reflection\n5.Shearing\nChoice : ";
     cin>>ch;
+    
     switch (ch) {
         case 1:
             float tx,ty;
@@ -144,10 +190,103 @@ void Func()
             postpoints[i][1] = P1[1][0]/H;
         }
             break;
-        default:cout<<"Wrong choice";break;
+        case 4:
+            cout<<"\nEnter reflection plane\n1.X axis\n2.Y axis\nEnter choice : ";
+            int ch2;
+            cin>>ch2;
+            for (int i = 0;i < NUMPOINTS;i++){
+                P[0][0] = prepoints[i][0]*H;
+                P[1][0] = prepoints[i][1]*H;
+                P[2][0] = H;
+                reflection(P , P1 , ch2);
+                postpoints[i][0] = P1[0][0]/H;
+                postpoints[i][1] = P1[1][0]/H;
+            }
+            break;
+            
+        case 5:
+            cout<<"\nEnter reflection plane\n1.X axis\n2.Y axis\nEnter choice : ";
+            cin>>ch2;
+            cout<<"\nEnter shear coeff and yreff : ";
+            float sh , yref;
+            cin>>sh>>yref;
+            int mx1 =0 , mx2 = 0;
+            int my1 =0 , my2 = 0;
+            
+            for(int j=1;j<4;j++)
+            {
+                if(prepoints[j][0] > prepoints[mx1][0])
+                {
+                    if(prepoints[mx1][0] > prepoints[mx2][0])
+                    {
+                        mx2 = mx1;
+                    }
+
+                    mx1 = j;
+                }
+                else if (prepoints[j][0] > prepoints[mx2][0])
+                {
+                    mx2 = j;
+                }
+                if(prepoints[j][1] > prepoints[my1][1])
+                {
+                    if(prepoints[my1][1] > prepoints[my2][1])
+                    {
+                        my2 = my1;
+                    }
+                    my1 = j;
+                }
+                else if (prepoints[j][1] > prepoints[my2][1])
+                {
+                    my2 = j;
+                }
+            }
+            
+            cout<<mx1<<" "<<mx2<<endl;
+            cout<<my1<<" "<<my2<<endl;
+
+            for (int i = 0;i < NUMPOINTS;i++)
+            {
+                P[0][0] = prepoints[i][0]*H;
+                P[1][0] = prepoints[i][1]*H;
+                P[2][0] = H;
+                
+                if(ch2 == 1)
+                {
+                    if(i == my1 || i == my2)
+                    {
+                        shear(P , P1 , ch2 , sh , yref);
+                        postpoints[i][0] = P1[0][0]/H;
+                        postpoints[i][1] = P1[1][0]/H;
+                    }
+                    else
+                    {
+                        postpoints[i][0] = P[0][0]/H;
+                        postpoints[i][1] = P[1][0]/H;
+                    }
+                }
+                else
+                {
+                    if(i == mx1 || i == mx2)
+                    {
+                        shear(P , P1 , ch2 , sh , yref);
+                        postpoints[i][0] = P1[0][0]/H;
+                        postpoints[i][1] = P1[1][0]/H;
+                    }
+                    else
+                    {
+                        postpoints[i][0] = P[0][0]/H;
+                        postpoints[i][1] = P[1][0]/H;
+                    }
+                }
+                
+            }
+            break;
+            
+
     }
 
-    if(ch > 0 && ch < 4)
+    if(ch > 0 && ch < 6)
     {
         myInit(255.0 , 0.0);
         displayFunc(postpoints);
