@@ -8,8 +8,8 @@ float xcentre, ycentre, r;
 int l2r;
 /*
    Window Size: 400 x 400
-   Ortho Plane: 80 x 80
-   Point Size: 5 x 5
+   Ortho Plane: 100 x 100
+   Point Size: 4 x 4
  */
 void myInit()
 {
@@ -27,7 +27,7 @@ float circlefunc(float x,float y,float r){
 }
 
 
-void plotLine(float xc, float yc, float r)
+void plotCircle(float xc, float yc, float r)
 {
         glClear(GL_COLOR_BUFFER_BIT);
         glBegin(GL_POINTS);
@@ -63,7 +63,7 @@ void plotLine(float xc, float yc, float r)
 void func()
 {
         cout << xcentre << ycentre << r;
-        plotLine(xcentre, ycentre, r);
+        plotCircle(xcentre, ycentre, r);
 }
 
 int main(int argc, char * argv[])

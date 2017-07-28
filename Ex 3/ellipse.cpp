@@ -5,7 +5,6 @@
 //  # include<glut/glut.h>
 using namespace std;
 float xcentre, ycentre, rx,ry;
-int l2r;
 /*
    Window Size: 400 x 400
    Ortho Plane: 100 x 100
@@ -37,7 +36,7 @@ float ellfunc2(float x,float y,float rx,float ry){
 }
 
 
-void plotLine(float xc, float yc, float rx,float ry)
+void plotEllipse(float xc, float yc, float rx,float ry)
 {
         glClear(GL_COLOR_BUFFER_BIT);
         glBegin(GL_POINTS);
@@ -87,7 +86,7 @@ void plotLine(float xc, float yc, float rx,float ry)
 void func()
 {
         cout << xcentre << ycentre << rx << ry;
-        plotLine(xcentre, ycentre, rx, ry);
+        plotEllipse(xcentre, ycentre, rx, ry);
 }
 
 int main(int argc, char * argv[])
