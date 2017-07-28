@@ -16,13 +16,13 @@ void myInit()
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
         glColor3f(1.0, 1.0, 1.01);
-        glPointSize(5);
-        gluOrtho2D(0, 80, 0, 80);
+        glPointSize(4);
+        gluOrtho2D(0, 100, 0, 100);
 }
 
 float circlefunc(float x,float y,float r){
     //return pow(x + 1.0,2) + pow(y + 0.5,2) - pow(y + 0.5,2);
-    float val = pow(x + 1.0,2) + pow(y + 0.5,2) - pow(r,2);
+    float val = pow(x + 1.0,2) + pow(y - 0.5,2) - pow(r,2);
     return val;
 }
 
@@ -39,11 +39,11 @@ void plotLine(float xc, float yc, float r)
                 p = circlefunc(x,y,r);
                 cout << p <<"\t"<<x<<"\t"<<y<<"\t"<<r<<endl;
                 if ( p < 0){
-                        x = x + 1;
+                        //x = x + 1;
                         y = y;
                 }
                 else{
-                        x = x + 1;
+                        //x = x + 1;
                         y = y - 1;
                 }
                 glVertex2d(xc + x,yc + y);
@@ -64,7 +64,7 @@ void func()
 {
         cout << xcentre << ycentre << r;
         plotLine(xcentre, ycentre, r);
-
+}
 
 int main(int argc, char * argv[])
 {
