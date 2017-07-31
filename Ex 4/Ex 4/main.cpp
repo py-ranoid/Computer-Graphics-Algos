@@ -51,15 +51,6 @@ void matrixMul(float feedMatrix[3][3],float P[3][NUMPOINTS],float newP[3][NUMPOI
         }
 }
 
-void translation(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float tx, float ty)
-{
-        float transmatrix[3][3] = {
-          {1,0,tx},
-          {0,1,ty},
-          {0,0,1}};
-        matrixMul(transmatrix, P, newP);
-}
-
 void rotation(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float theta)
 {
         float sinTheta = sin( theta * PI / 180);
@@ -70,6 +61,15 @@ void rotation(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float theta)
           {0        ,0            ,1}};
 
         matrixMul(rotmatrix, P, newP);
+}
+
+void translation(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float tx, float ty)
+{
+        float transmatrix[3][3] = {
+          {1,0,tx},
+          {0,1,ty},
+          {0,0,1}};
+        matrixMul(transmatrix, P, newP);
 }
 
 void reflection(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], int ch)
