@@ -2,6 +2,7 @@
 #include "GL/gl.h"
 #include <iostream>
 #include "math.h"
+
 #define SHAPE_WIDTH 100.0
 #define WIN_WIDTH 400.0
 #define WIN_HEIGHT 500.0
@@ -9,9 +10,9 @@
 #define VP_HEIGHT 200.0
 #define NUMPOINTS 10
 #define POINTSIZE 2
+
 //#include<glut/glut.h>
 using namespace std;
-
 void myInit()
 {
         glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -40,16 +41,25 @@ void plot()
         glVertex2d(0                    , 0);
         glEnd();
 
+        //To set the raster position, to enable the call to glutBitmapString().
+        glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
         glRasterPos2i(5,WIN_HEIGHT/POINTSIZE - 10);
+
+        //Function to print anything to the output screen.
         const unsigned char* vp = reinterpret_cast<const unsigned char *>("Viewport");
+        //Select the font of the text to be printed.
         glutBitmapString(GLUT_BITMAP_HELVETICA_18, vp);
 
+        //To set the raster position, to enable the call to glutBitmapString().
         glRasterPos2i(VP_WIDTH/POINTSIZE+5,WIN_HEIGHT/POINTSIZE - 10);
+
+        //Function to print anything to the output screen.
         const unsigned char* t = reinterpret_cast<const unsigned char *>("Window");
+        //Select the font of the text to be printed.
         glutBitmapString(GLUT_BITMAP_HELVETICA_18, t);
 
 
-        // Setting colout to white for plotting shape
+        // Setting colour to white for plotting shape
         glColor3f(1.0, 1.0, 1.0);
         // Coordinates of given shape
         float points[NUMPOINTS][2] = {
@@ -66,8 +76,10 @@ void plot()
         };
 
         glBegin(GL_LINE_LOOP);
+
         for(int i =0; i<NUMPOINTS; i++)
                 glVertex2d(VP_WIDTH/POINTSIZE + round(points[i][0]), round(points[i][1]));
+
         glEnd();
 
         float Xscale = VP_WIDTH / WIN_WIDTH;
