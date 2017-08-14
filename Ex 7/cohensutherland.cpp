@@ -2,7 +2,7 @@
 #include "GL/gl.h"
 #include <iostream>
 #include "math.h"
-#define WIDTH 400.0
+#define WIDTH 500.0
 #define HEIGHT 500.0
 #define VERPAD 100.0
 #define HORPAD 100.0
@@ -13,6 +13,7 @@ using namespace std;
 bool TBRL1[4];
 bool TBRL2[4];
 int xstart,ystart,xend,yend;
+int xstartinit,ystartinit,xendinit,yendinit;
 float slope;
 
 void points2TBRL(bool TBRL[],int x,int y){
@@ -111,32 +112,17 @@ void plot()
         const unsigned char* righttext = reinterpret_cast<const unsigned char *>("Right : 0010");
         glutBitmapString(GLUT_BITMAP_HELVETICA_12, righttext);
 
-        // glRasterPos2i(5,WIN_HEIGHT/POINTSIZE - 10);
-        // const unsigned char* vp = reinterpret_cast<const unsigned char *>("Top : 1000");
-        // glutBitmapString(GLUT_BITMAP_HELVETICA_18, vp);
-        //
-        // glRasterPos2i(5,WIN_HEIGHT/POINTSIZE - 10);
-        // const unsigned char* vp = reinterpret_cast<const unsigned char *>("Top : 1000");
-        // glutBitmapString(GLUT_BITMAP_HELVETICA_18, vp);
-
         glColor3f(1.0, 1.0, 1.0);
         glBegin(GL_LINES);
         glVertex2d(xstart,ystart);
         glVertex2d(xend,yend);
-        // glVertex2d(VP_WIDTH/POINTSIZE   , (WIN_HEIGHT-VP_HEIGHT)/POINTSIZE);
-        // glVertex2d(VP_WIDTH/POINTSIZE   , 0);
-        // glVertex2d(0                    , 0);
         glEnd();
-        //
-        //
-        // glRasterPos2i(VP_WIDTH/POINTSIZE+5,WIN_HEIGHT/POINTSIZE - 10);
-        // const unsigned char* t = reinterpret_cast<const unsigned char *>("Window");
-        // glutBitmapString(GLUT_BITMAP_HELVETICA_18, t);
-        //
-        // glBegin(GL_LINE_LOOP);
-        // for(int i =0; i<NUMPOINTS; i++)
-        //         glVertex2d(round(points[i][0])*Xscale, (WIN_HEIGHT - VP_HEIGHT)/POINTSIZE + round(points[i][1])*Yscale);
-        // glEnd();
+
+        glColor3f(0.0, 0.0, 1.0);
+        glBegin(GL_POINTS);
+        glVertex2d(xstartinit,ystartinit);
+        glVertex2d(xendinit,yendinit);
+        glEnd();
 
         glFlush();
 }
@@ -166,16 +152,12 @@ void solver(){
                                 cout<<"1. Trivial accept of start failed at pos :"<<pos<<endl;
                                 switch (pos) {
                                         case 0: y = (VERPAD+HEIGHT)/POINTSIZE;  x = y2x(y);
-                                                cout <<pos<<" changed to " << x << " " << y << endl;
                                                 break;
                                         case 1: y = (VERPAD)/POINTSIZE;         x = y2x(y);
-                                                cout <<pos<<" changed to " << x << " " << y << endl;
                                                 break;
                                         case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
-                                                cout <<pos<<" changed to " << x << " " << y << endl;
                                                 break;
                                         case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
-                                                cout <<pos<<" changed to " << x << " " << y << endl;
                                                 break;
                                 }
                                 cout << "Start changed to " << x << " " << y << endl;
@@ -195,7 +177,7 @@ void solver(){
                                                         break;
                                                 case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
                                                         break;
-                                                case 3: x = (HORPAD)/POINTSIZE;         y= x2y(y);
+                                                case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
                                                         break;
                                         }
                                         cout << "Start changed to " << x << " " << y << endl;
@@ -218,7 +200,8 @@ void solver(){
                                                 break;
                                         case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
                                                 break;
-                                        case 3: x = (HORPAD)/POINTSIZE;         y= x2y(y);
+                                        case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
+                                                cout << "Changed";
                                                 break;
                                 }
                                 cout << "End changed to " << x << " " << y << endl;
@@ -238,7 +221,7 @@ void solver(){
                                                         break;
                                                 case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
                                                         break;
-                                                case 3: x = (HORPAD)/POINTSIZE;         y= x2y(y);
+                                                case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
                                                         break;
                                         }
                                         cout << "End changed to " << x << " " << y << endl;
@@ -250,8 +233,8 @@ void solver(){
 
                 }
         }
-        cout << xstart << " " << xend << endl;
-        cout << ystart << " " << yend << endl;
+        cout << "Start : "<< xstart << " " << ystart << endl;
+        cout << "End : "<<xend << " " << yend << endl;
 }
 void func()
 {
@@ -266,12 +249,15 @@ int main(int argc, char * argv[])
         cout << "Start points (0,0 - "<<(WIDTH + 2 * HORPAD)/POINTSIZE<<","<<(HEIGHT + 2 * VERPAD)/POINTSIZE<<")\n";
         cout << "x: "; cin >> xend;
         cout << "y: "; cin >> yend;
-        slope = (yend-ystart)/(xend-xstart);
+        slope = float(yend-ystart)/(xend-xstart);
+        cout << "Slope : "<< slope <<endl;
+        xstartinit = xstart; ystartinit = ystart;
+        xendinit = xend;yendinit = yend;
         solver();
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
         glutInitWindowSize(WIDTH + 2 * HORPAD, HEIGHT + 2 * VERPAD);
-        glutCreateWindow("Lines");
+        glutCreateWindow("Ex. 7 : Cohen Sutherland Clipping algorithm");
         myInit();
         glutDisplayFunc(func);
         glutMainLoop();
