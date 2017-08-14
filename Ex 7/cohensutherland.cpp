@@ -2,16 +2,16 @@
 #include "GL/gl.h"
 #include <iostream>
 #include "math.h"
-#define WIDTH 500.0
-#define HEIGHT 500.0
-#define VERPAD 100.0
-#define HORPAD 100.0
-#define NUMPOINTS 10
-#define POINTSIZE 2
 //#include<glut/glut.h>
+#define WIDTH 500.0     // Width of Clipping Area
+#define HEIGHT 500.0    // Height of Clipping Area
+#define VERPAD 100.0    // Vertical Padding
+#define HORPAD 100.0    // Horizontal Padding
+#define POINTSIZE 2
+
 using namespace std;
-bool TBRL1[4];
-bool TBRL2[4];
+bool TBRL1[4];          // Stores TBRL values of starting point
+bool TBRL2[4];          // Stores TBRL values of end point
 int xstart,ystart,xend,yend;
 int xstartinit,ystartinit,xendinit,yendinit;
 float slope;
@@ -31,21 +31,35 @@ int y2x(int y){
         return (xend + (y - yend)/slope);
 }
 
-/*
-void rectify(){
+
+void rectify(int ch, int pos){
+        int x,y;
+        if (ch==0){
+                x = xstart;y = ystart;
+        }
+        else{
+                x = xend;y = yend;
+        }
         switch (pos) {
                 case 0: y = (VERPAD+HEIGHT)/POINTSIZE;  x = y2x(y);
                         break;
-                case 1: y = (VERPAD)/POINTSIZE);        x = y2x(y);
+                case 1: y = (VERPAD)/POINTSIZE;         x = y2x(y);
                         break;
                 case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
                         break;
-                case 3: x = (HORPAD)/POINTSIZE;         y= x2y(y);
+                case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
                         break;
         }
+        if (ch==0){
+                xstart = x;ystart = y;
+        }
+        else{
+                xend = x;yend = y;
+        }
+
 }
-*/
-bool check_trivial_accept(bool TBRL1[], bool TBRL2[] ){
+
+bool check_trivial_accept(bool TBRL1[], bool TBRL2[]){
         for (int i =0; i < 4; i++) {
                 if (TBRL1[i]|TBRL2[i])
                         return 0;
@@ -146,90 +160,42 @@ void solver(){
                         // Checking if (xstart,ystart) is in window
                         if (!check_trivial_accept(TBRL1,empty)) {
                                 int pos = find_TBRL_pos(TBRL1);
-                                // Reset xstart and ystart
-                                x = xstart;
-                                y = ystart;
                                 cout<<"1. Trivial accept of start failed at pos :"<<pos<<endl;
-                                switch (pos) {
-                                        case 0: y = (VERPAD+HEIGHT)/POINTSIZE;  x = y2x(y);
-                                                break;
-                                        case 1: y = (VERPAD)/POINTSIZE;         x = y2x(y);
-                                                break;
-                                        case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
-                                                break;
-                                        case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
-                                                break;
-                                }
-                                cout << "Start changed to " << x << " " << y << endl;
-                                xstart = x;
-                                ystart = y;
+                                // Reset xstart and ystart
+                                rectify(0,pos);
+                                cout << "Start changed to " << xstart << " " << ystart << endl;
                                 points2TBRL(TBRL1,xstart,ystart);
                                 if (!check_trivial_accept(TBRL1,empty)) {
                                         int pos = find_TBRL_pos(TBRL1);
-                                        // Reset xstart and ystart
-                                        x = xstart;
-                                        y = ystart;
                                         cout<<"2. Trivial accept of start failed at pos :"<<pos<<endl;
-                                        switch (pos) {
-                                                case 0: y = (VERPAD+HEIGHT)/POINTSIZE;  x = y2x(y);
-                                                        break;
-                                                case 1: y = (VERPAD)/POINTSIZE;        x = y2x(y);
-                                                        break;
-                                                case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
-                                                        break;
-                                                case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
-                                                        break;
-                                        }
-                                        cout << "Start changed to " << x << " " << y << endl;
-                                        xstart = x;
-                                        ystart = y;
+                                        // Reset xstart and ystart
+                                        rectify(0,pos);
+                                        cout << "Start changed to " << xstart << " " << ystart << endl;
                                         points2TBRL(TBRL1,xstart,ystart);
                                 }
                         }
+                        cout << "Start : "<< xstart << " " << ystart << endl;
+                        cout << "End : "<<xend << " " << yend << endl;
                         // Checking if (xend,yend) is in window
                         if (!check_trivial_accept(TBRL2,empty)) {
                                 int pos = find_TBRL_pos(TBRL2);
-                                // Reset xend and yend
-                                x = xend;
-                                y = yend;
                                 cout<<"1. Trivial accept of end failed at pos :"<<pos<<endl;
-                                switch (pos) {
-                                        case 0: y = (VERPAD+HEIGHT)/POINTSIZE;  x = y2x(y);
-                                                break;
-                                        case 1: y = (VERPAD)/POINTSIZE;        x = y2x(y);
-                                                break;
-                                        case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
-                                                break;
-                                        case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
-                                                cout << "Changed";
-                                                break;
-                                }
-                                cout << "End changed to " << x << " " << y << endl;
-                                xend = x;
-                                yend = y;
+                                // Reset xend and yend
+                                rectify(1,pos);
+                                cout << "End changed to " << xend << " " << yend << endl;
                                 points2TBRL(TBRL2,xend,yend);
                                 if (!check_trivial_accept(TBRL2,empty)) {
                                         int pos = find_TBRL_pos(TBRL2);
-                                        // Reset xend and yend
-                                        x = xend;
-                                        y = yend;
                                         cout<<"2. Trivial accept of end failed at pos :"<<pos<<endl;
-                                        switch (pos) {
-                                                case 0: y = (VERPAD+HEIGHT)/POINTSIZE;  x = y2x(y);
-                                                        break;
-                                                case 1: y = (VERPAD)/POINTSIZE;        x = y2x(y);
-                                                        break;
-                                                case 2: x = (HORPAD+WIDTH)/POINTSIZE;   y= x2y(x);
-                                                        break;
-                                                case 3: x = (HORPAD)/POINTSIZE;         y= x2y(x);
-                                                        break;
-                                        }
-                                        cout << "End changed to " << x << " " << y << endl;
-                                        xend = x;
-                                        yend = y;
+                                        // Reset xend and yend
+                                        rectify(1,pos);
+                                        cout << "End changed to " << xend << " " << yend << endl;
                                         points2TBRL(TBRL2,xend,yend);
                                 }
                         }
+                        cout << "Start : "<< xstart << " " << ystart << endl;
+                        cout << "End : "<<xend << " " << yend << endl;
+
 
                 }
         }
@@ -243,16 +209,19 @@ void func()
 
 int main(int argc, char * argv[])
 {
+        // Accepting starting and end points of lines
         cout << "Start points (0,0 - "<<(WIDTH + 2 * HORPAD)/POINTSIZE<<","<<(HEIGHT + 2 * VERPAD)/POINTSIZE<<")\n";
         cout << "x: "; cin >> xstart;
         cout << "y: "; cin >> ystart;
         cout << "Start points (0,0 - "<<(WIDTH + 2 * HORPAD)/POINTSIZE<<","<<(HEIGHT + 2 * VERPAD)/POINTSIZE<<")\n";
         cout << "x: "; cin >> xend;
         cout << "y: "; cin >> yend;
+        // Computing slope of line
         slope = float(yend-ystart)/(xend-xstart);
         cout << "Slope : "<< slope <<endl;
-        xstartinit = xstart; ystartinit = ystart;
-        xendinit = xend;yendinit = yend;
+        // Storing initial values to plot points in the end
+        xstartinit = xstart;    ystartinit = ystart;
+        xendinit = xend;        yendinit = yend;
         solver();
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
