@@ -1,11 +1,13 @@
 #include "GL/freeglut.h"
 #include "GL/gl.h"
 #include <iostream>
+#include <math.h>
 #define MIN 0
 #define MAX 2
 #define AXISLEN 5
 #define H 1
 #define NUMPOINTS 8
+#define PI 3.14159265358979323846
 using namespace std;
 GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 0.0};  /* Red diffuse light. */
 GLfloat light_position[] = {1.0, 1.0, 1.0, 0.0};  /* Infinite light location. */
@@ -132,6 +134,36 @@ void scale(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float sx, float sy, 
         };
         matrixMul(scalematrix, P, newP);
 }
+void rotation(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float theta1, float theta2, int choice){
+        a = cos(PI*theta1/180.0);
+        b = sin(PI*theta1/180.0);
+
+        if(choice == 0 ){
+                float rotmatrix[4][4] = {
+                        {a,b,0,0},
+                        {-b,a,0,0},
+                        {0,0,1,0},
+                        {0,0,0,1}
+                };
+        }
+        else if(choice == 1){
+                float rotmatrix[4][4] = {
+                        {a,0,b,0},
+                        {0,1,0,0},
+                        {-b,0,a,0},
+                        {0,0,0,1}
+                };
+        }
+        else{
+                float rotmatrix[4][4] = {
+                        {1,0,0,0},
+                        {0,a,b,0},
+                        {0,-b,a,0},
+                        {0,0,0,1}
+                };
+        matrixMul(rotmatrix, P, newP);
+        }
+}
 void display(void)
 {
         glMatrixMode(GL_MODELVIEW);
@@ -212,6 +244,24 @@ void ops(){
                           cout << "\nScale along Z : ";cin >>sz;
                           scale(P,P1,sx,sy,sz);
                           break;
+                case 3:   int rx=0,ry=0,rz=0;
+                          int axis_ch=0;
+                          cout<<" \nEnter the axis of rotation (0/1/2): ";cin>>axis_ch;
+                          switch(axis_ch){
+                                  case 0 : cout<<" \nEnter x˚ : ";cin>>rx;
+                                           cout<<" \nEnter y˚ : ";cin>>ry;
+                                           rotation(P,P1,rx,ry,0);
+                                           break;
+                                  case 1 : cout<<" \nEnter x˚ : ";cin>>rx;
+                                           cout<<" \nEnter z˚ : ";cin>>rz;
+                                           rotation(P,P1,rx,rz,1);
+                                           break;
+                                  case 2 : cout<<" \nEnter y˚ : ";cin>>ry;
+                                           cout<<" \nEnter z˚ : ";cin>>rz;
+                                           rotation(P,P1,ry,rz,2);
+                                           break;
+                                  default : cout<< " \nWrong choice";
+                          }
                 default : cout << "Wrong choice";
         }
         for (int i =0; i<NUMPOINTS; i++) {
