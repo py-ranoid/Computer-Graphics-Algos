@@ -256,6 +256,8 @@ void ops(){
                           cout<<" \nEnter Theta : ";cin>>r;
                           if (axis_ch >=0 && axis_ch<=3)
                                 rotation(P,P1,r,axis_ch);
+                          else
+                                cout<<"\nWrong choice";
                           break;
                 default : cout << "Wrong choice";
         }
