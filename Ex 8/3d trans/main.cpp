@@ -134,25 +134,30 @@ void scale(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float sx, float sy, 
         };
         matrixMul(scalematrix, P, newP);
 }
-void rotation(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float theta1, float theta2, int choice){
-        a = cos(PI*theta1/180.0);
-        b = sin(PI*theta1/180.0);
+void rotation(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float theta1, int choice){
 
+        float a = cos(PI*theta1/180.0);
+        float b = sin(PI*theta1/180.0);
+        cout <<endl<<choice<<endl;
         if(choice == 0 ){
+                cout<<"Choice : 0" ;
                 float rotmatrix[4][4] = {
                         {a,b,0,0},
                         {-b,a,0,0},
                         {0,0,1,0},
                         {0,0,0,1}
                 };
+                matrixMul(rotmatrix, P, newP);
         }
         else if(choice == 1){
+                cout<<"Choice : 1";
                 float rotmatrix[4][4] = {
                         {a,0,b,0},
                         {0,1,0,0},
                         {-b,0,a,0},
                         {0,0,0,1}
                 };
+                matrixMul(rotmatrix, P, newP);
         }
         else{
                 float rotmatrix[4][4] = {
@@ -161,7 +166,7 @@ void rotation(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float theta1, flo
                         {0,-b,a,0},
                         {0,0,0,1}
                 };
-        matrixMul(rotmatrix, P, newP);
+                matrixMul(rotmatrix, P, newP);
         }
 }
 void display(void)
@@ -229,7 +234,7 @@ void ops(){
                 P[2][i]=v[i][2]*H;
                 P[3][i]=H;
         }
-        cout << "1. Translation \n2.Scaling\nChoice : ";
+        cout << "1. Translation \n2.Scaling\n3.Rotation\nChoice : ";
         cin >> ch;
         switch (ch){
                 case 1  : int tx,ty,tz;
@@ -244,24 +249,14 @@ void ops(){
                           cout << "\nScale along Z : ";cin >>sz;
                           scale(P,P1,sx,sy,sz);
                           break;
-                case 3:   int rx=0,ry=0,rz=0;
-                          int axis_ch=0;
+                case 3:   float r;
+                          int axis_ch;
+                          axis_ch =0;
                           cout<<" \nEnter the axis of rotation (0/1/2): ";cin>>axis_ch;
-                          switch(axis_ch){
-                                  case 0 : cout<<" \nEnter x˚ : ";cin>>rx;
-                                           cout<<" \nEnter y˚ : ";cin>>ry;
-                                           rotation(P,P1,rx,ry,0);
-                                           break;
-                                  case 1 : cout<<" \nEnter x˚ : ";cin>>rx;
-                                           cout<<" \nEnter z˚ : ";cin>>rz;
-                                           rotation(P,P1,rx,rz,1);
-                                           break;
-                                  case 2 : cout<<" \nEnter y˚ : ";cin>>ry;
-                                           cout<<" \nEnter z˚ : ";cin>>rz;
-                                           rotation(P,P1,ry,rz,2);
-                                           break;
-                                  default : cout<< " \nWrong choice";
-                          }
+                          cout<<" \nEnter Theta : ";cin>>r;
+                          if (axis_ch >=0 && axis_ch<=3)
+                                rotation(P,P1,r,axis_ch);
+                          break;
                 default : cout << "Wrong choice";
         }
         for (int i =0; i<NUMPOINTS; i++) {
