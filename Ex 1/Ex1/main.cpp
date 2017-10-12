@@ -4,130 +4,31 @@
 #include "GL/freeglut.h"
 
 using namespace std;
-
+char ch;
 void myInit()
 {
         glClearColor(1.0, 1.0, 1.0, 0.0);
         glColor3f(0.0, 0.0, 0.0);
         glPointSize(10);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        gluOrtho2D(0.0, 640.0, 0.0, 480.0);
+        gluOrtho2D(0.0, 320.0, 0.0, 320.0);
 }
 
 void points()
 {
         glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_POINTS);
-        glVertex2d(150, 100);
-        glVertex2d(200, 200);
-        glVertex2d(250, 300);
-        glEnd();
-        glFlush();
-}
-
-void lines()
-{
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_LINES);
-        glVertex2d(150, 200);
-        glVertex2d(200, 250);
-        glEnd();
-        glFlush();
-}
-
-void line_strip()
-{
-
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_LINE_STRIP);
-        glVertex2d(150, 200);
-        glVertex2d(200, 250);
-        glVertex2d(300, 300);
-        glVertex2d(100, 100);
-        glEnd();
-        glFlush();
-}
-
-void line_loop()
-{
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_QUADS);
-        glVertex2d(250, 200);
-        glVertex2d(300, 200);
-        glVertex2d(300, 250);
-
-        glVertex2d(250, 250);
-        glEnd();
-        glFlush();
-}
-
-void triangle()
-{
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_TRIANGLES);
-        glVertex2d(150, 200);
-        glVertex2d(200, 250);
-        glVertex2d(300, 300);
-        glVertex2d(100, 100);
-        glEnd();
-        glFlush();
-
-}
-
-void triangle_strip()
-{
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_TRIANGLE_STRIP);
-        glVertex2d(150, 200);
-        glVertex2d(200, 250);
-        glVertex2d(300, 300);
-        glVertex2d(100, 100);
-        glEnd();
-        glFlush();
-
-}
-
-void triangle_fan()
-{
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_TRIANGLE_FAN);
-        glVertex2d(150, 200);
-        glVertex2d(200, 250);
-        glVertex2d(300, 300);
-        glVertex2d(100, 100);
-        glEnd();
-        glFlush();
-}
-
-void quads()
-{
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_QUADS);
-        glVertex2d(150, 200);
-        glVertex2d(200, 250);
-        glVertex2d(300, 300);
-        glVertex2d(100, 100);
-        glEnd();
-        glFlush();
-}
-
-void quad_strip()
-{
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_QUAD_STRIP);
-        glVertex2d(150, 200);
-        glVertex2d(200, 250);
-        glVertex2d(300, 300);
-        glVertex2d(100, 100);
-        glEnd();
-        glFlush();
-}
-
-void polygon()
-{
-        glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_POLYGON);
+        switch (ch) {
+                case 'a':glBegin(GL_POINTS);;break;
+                case 'b':glBegin(GL_LINES);;break;
+                case 'c':glBegin(GL_LINE_STRIP);;break;
+                case 'd':glBegin(GL_LINE_LOOP);;break;
+                case 'e':glBegin(GL_TRIANGLES);;break;
+                case 'f':glBegin(GL_TRIANGLE_STRIP);;break;
+                case 'g':glBegin(GL_TRIANGLE_FAN);;break;
+                case 'h':glBegin(GL_QUADS);;break;
+                case 'i':glBegin(GL_QUAD_STRIP);;break;
+                case 'j':glBegin(GL_POLYGON);;break;
+                default:cout<<"Wrong Choice";break;
+        }
         glVertex2d(150, 200);
         glVertex2d(200, 250);
         glVertex2d(300, 300);
@@ -139,7 +40,6 @@ void polygon()
 
 int main(int argc, char * argv[])
 {
-        char ch;
         cout << " a. GL_POINTS \t\t : Treats each vertex as a single point. Vertex i defines point i. Hence n points are drawn\n\n";
         cout << " b. GL_LINES \t\t : Treats each pair of vertices as an independent line segment. Last point ignored if odd number of vertices are given.\n";
         cout << " c. GL_LINE_STRIP \t : Similar to GL_LINES. Joins continous vertices.\n";
@@ -153,21 +53,9 @@ int main(int argc, char * argv[])
         cout << "Choice :";cin >>ch;
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-        glutInitWindowSize(640, 480);
+        glutInitWindowSize(320, 320);
         glutCreateWindow("Exercise 1");
-        switch (ch) {
-                case 'a':glutDisplayFunc(points);break;
-                case 'b':glutDisplayFunc(lines);break;
-                case 'c':glutDisplayFunc(line_strip);break;
-                case 'd':glutDisplayFunc(line_loop);break;
-                case 'e':glutDisplayFunc(triangle);break;
-                case 'f':glutDisplayFunc(triangle_strip);break;
-                case 'g':glutDisplayFunc(triangle_fan);break;
-                case 'h':glutDisplayFunc(quads);break;
-                case 'i':glutDisplayFunc(quad_strip);break;
-                case 'j':glutDisplayFunc(polygon);break;
-                default:cout<<"Wrong Choice";break;
-        }
+        glutDisplayFunc(points);
 //    glutDisplayFunc(quads);
         myInit();
         glutMainLoop();

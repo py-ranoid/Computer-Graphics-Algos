@@ -272,7 +272,7 @@ int main(int argc, char **argv)
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
         glutInitWindowSize(600, 600);
-        glutCreateWindow("red 3D lighted cube");
+        glutCreateWindow("3D Transformation");
         glClearColor(1.0, 1.0, 1.0, 1.0);
         glutDisplayFunc(display);
         init();
