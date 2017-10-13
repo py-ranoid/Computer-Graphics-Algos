@@ -4,10 +4,10 @@
 #include <math.h>
 #define AXISLEN 40
 #define MAX 20.0f
-#define BALLRADIUS 2
+#define BALLRADIUS 5
 GLfloat xRotated, yRotated, zRotated;
 GLdouble radius=1;
-
+using namespace std;
 //float x=MAX/4+100,y=MAX/2;
 float horizontal_velocity = -0.2;
 float vertical_velocity = -0.1;
@@ -45,25 +45,75 @@ void drawAxes()
         glutBitmapString(GLUT_BITMAP_HELVETICA_12, x);
 
 }
+
+float circlefunc(float x,float y,float r){
+    //return pow(x + 1.0,2) + pow(y + 0.5,2) - pow(y + 0.5,2);
+    float val = pow(x + 1.0,2) + pow(y - 0.5,2) - pow(r,2);
+    return val;
+}
+
+
+void plotCircle(float xc, float yc, float r)
+{
+        //glClear(GL_COLOR_BUFFER_BIT);
+        glBegin(GL_POINTS);
+        float x = 0.0;
+        float y = r-1;
+        float p;
+        for (;x<=y;x++)
+        {
+                p = circlefunc(x,y,r);
+                cout << p <<"\t"<<x<<"\t"<<y<<"\t"<<r<<endl;
+                if ( p < 0){
+                        //x = x + 1;
+                        y = y;
+                }
+                else{
+                        //x = x + 1;
+                        y = y - 1;
+                }
+                glVertex2d(xc + x,yc + y);
+                glVertex2d(xc + x,yc - y);
+                glVertex2d(xc - x,yc + y);
+                glVertex2d(xc - x,yc - y);
+                glVertex2d(xc + y,yc + x);
+                glVertex2d(xc + y,yc - x);
+                glVertex2d(xc - y,yc + x);
+                glVertex2d(xc - y,yc - x);
+
+        }
+        glEnd();
+        glFlush();
+}
+
 float x=0,y=0,z=0;
 void display(void){
+
     glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(0.8, 0.8, 0.0);
+    glutSolidSphere(BALLRADIUS*2,30,30);
     drawAxes();
     glPushMatrix();
-    glTranslatef(x,y,z);
-    x = x + magnitude*(horizontal_velocity);
-    y = y + magnitude*(vertical_velocity);
-    z = z + magnitude*(upward_velocity);
+            glTranslatef(x,y,z);
 
-    if (x>=MAX-BALLRADIUS || x <=-1*MAX+BALLRADIUS)
-            horizontal_velocity *= -1;
-    if (y>=2*MAX-BALLRADIUS || y <=-1.5*MAX+BALLRADIUS)
-            vertical_velocity *= -1;
-    if (z>=2*MAX-BALLRADIUS || z <=-1*MAX+BALLRADIUS)
-        upward_velocity *= -1;
-    glColor3f(0.9, 0.3, 0.2);
-    glutSolidSphere(BALLRADIUS,30,30);
-    glPopMatrix();
+            x = x + magnitude*(horizontal_velocity);
+            y = y + magnitude*(vertical_velocity);
+            z = z + magnitude*(upward_velocity);
+
+            if (x>=MAX-BALLRADIUS || x <=-1*MAX+BALLRADIUS)
+                    horizontal_velocity *= -1;
+            if (y>=2*MAX-BALLRADIUS || y <=-1.5*MAX+BALLRADIUS)
+                    vertical_velocity *= -1;
+            if (z>=2*MAX-BALLRADIUS || z <=-1*MAX+BALLRADIUS)
+                upward_velocity *= -1;
+            glColor3f(0.9, 0.3, 0.2);
+            glutSolidSphere(BALLRADIUS,30,30);
+            glPopMatrix();
+            glPushMatrix();
+                    glTranslatef(x+5,y,z);
+                    glColor3f(0.0, 0.3, 0.2);
+                    glutSolidSphere(BALLRADIUS,30,30);
+            glPopMatrix();
     glFlush();
     // sawp buffers called because we are using double buffering
    // glutSwapBuffers();
@@ -79,8 +129,9 @@ void reshape(int x, int y){
               1.0, 1.0, 0.);  /* up is in positive Y direction */
 }
 void Timer(int value) {
-        display();
-	glutTimerFunc(10, Timer, 0);
+        glutPostRedisplay();
+        //display();
+	glutTimerFunc(40, Timer, 0);
 }
 
 int main (int argc, char **argv)
@@ -89,7 +140,7 @@ int main (int argc, char **argv)
     glutInitWindowSize(350,350);
     glutCreateWindow("Solid Sphere");
     //GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 0.0};  /* Red diffuse light. */
-    GLfloat light_position[] = {-1.0, -1.0, -4.0, 0.0};  /* Infinite light location. */
+    float light_position[] = {-1.0, -1.0, -4.0, 0.0};  /* Infinite light location. */
     //glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse); // Assigning light diffuse property to GL_LIGHT0 (colour)
     glLightfv(GL_LIGHT0, GL_POSITION, light_position); // Specify position of GL_LIGHT0 at light_position
     glEnable(GL_LIGHT0);                            // Enable GL_LIGHT0
@@ -100,12 +151,12 @@ int main (int argc, char **argv)
                                                   /* aspect ratio */ 1.0,
                                                   /* Z near */ 1.0, /* Z far */ 100.0);
 //    glMatrixMode(GL_MODELVIEW);
-    gluLookAt(30.0, 50.0, 30.0, /* eye is at (0,0,5) */
-              0.0, 10.0, 0.0,  /* center is at (0,0,0) */
+    gluLookAt(50.0, 50.0, 50.0, /* eye is at (0,0,5) */
+              0.0, 0.0, 0.0,  /* center is at (0,0,0) */
               0.0, 0.0, 1.0);  /* up is in positive Y direction */
 
 //    glutReshapeFunc(reshape);
-    //glutDisplayFunc(display);
+    glutDisplayFunc(display);
     Timer(0);
     //Timer(0);
     glutMainLoop();
