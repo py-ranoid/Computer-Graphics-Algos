@@ -52,10 +52,10 @@ void plotCircle(float xc, float yc, float r)
         glFlush();
 }
 
-float x=MAX/4+100,y=MAX/2;
-float horizontal_velocity = -0.2;
-float vertical_velocity = -0.1;
-float magnitude = 30;
+	float x=MAX/4+100,y=MAX/2;
+	float horizontal_velocity = -0.2;
+	float vertical_velocity = -0.1;
+	float magnitude = 30;
 
 void display(void) {
         cout << x <<"\t"<< y <<"\t"<<horizontal_velocity <<"\t"<< vertical_velocity<<endl;
