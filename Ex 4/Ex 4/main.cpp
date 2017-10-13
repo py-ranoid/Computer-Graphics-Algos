@@ -1,10 +1,4 @@
-/*
- To run in terminal :
- 1. g++ X.cpp -lX11 -lGL -lGLU -lglut -g -Wall -O2 -o X
- 2. ./X
-*/
 #include <iostream>
-//#include <glut/glut.h>
 #include "GL/freeglut.h"
 #include "GL/gl.h"
 #include <math.h>
@@ -26,13 +20,13 @@ void matrixMul(float feedMatrix[3][3],float P[3][NUMPOINTS],float newP[3][NUMPOI
                 for (j=0; j<NUMPOINTS; j++)
                         newP[i][j] = 0;
         cout << endl;
-        
+
         for (k=0; k<NUMPOINTS; k++)
                 for(i=0; i<3; i++)
                         for(j=0; j<3; j++)
                                 newP[i][k] += feedMatrix[i][j]*P[j][k];
 
-        cout << "P Matrix after multiplication : ";
+        cout << "P Matrix after multiplication : "<<endl;
         for (i = 0; i < 3; i++){
                 for (j=0; j<NUMPOINTS; j++)
                         cout <<  newP[i][j] << "\t" ;
@@ -139,13 +133,13 @@ void scaling(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], float sx, float sy
 
 void myInit(float c1 = 1.0, float c2 = 1.0)
 {
-        glClearColor(0.0, 0.0, 0.0, 0.0);
-        //glClear(GL_COLOR_BUFFER_BIT);
-        //glColor3f(c1, c2, c2);
+        glClearColor(1.0, 1.0, 1.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glColor3f(c1, c2, c2);
         glPointSize(10);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluOrtho2D(-500, 500, -400, 400);
+        gluOrtho2D(-150, 150, -150, 150);
 }
 
 
@@ -163,16 +157,11 @@ void originFunc()
 
 void displayFunc(float points[NUMPOINTS][2])
 {
-
-        cout<<"plotting quads";
         glBegin(GL_QUADS);
-        
-        for(int i=0; i<NUMPOINTS; i++)
-                cout<<endl<<points[i][0]<<" "<<points[i][1];
-
         for(int i=0; i<NUMPOINTS; i++)
                 glVertex2d( points[i][0], points[i][1]);
-
+        glEnd();
+        glFlush();
 }
 
 void ops(int ch)
@@ -180,9 +169,9 @@ void ops(int ch)
         switch (ch) {
         case 1:
                 float tx,ty;
-                cout<<"\nEnter Translation along x axis :";
+                cout<<"Enter Translation along x axis :";
                 cin>>tx;
-                cout<<"\nEnter Translation along y axis :";
+                cout<<"Enter Translation along y axis :";
                 cin>>ty;
                 translation(P, P1, tx, ty);
                 break;
@@ -246,9 +235,6 @@ void ops(int ch)
                                 }
                         }
 
-                        cout<<mx1<<" "<<mx2<<endl;
-                        cout<<my1<<" "<<my2<<endl;
-
                         for (int i = 0; i < NUMPOINTS; i++)
                         {
                                 P[0][0] = prepoints[i][0]*H;
@@ -290,26 +276,21 @@ void ops(int ch)
         default:cout<<"\nWrong choice";
                 break;
         }
+        cout <<"Points after transformation :"<<endl;
         for (int i=0;i<NUMPOINTS;i++){
                 postpoints[i][0] = P1[0][i]/H;
                 postpoints[i][1] = P1[1][i]/H;
-                cout << postpoints[i][0] << " \t" << postpoints[i][1];
+                cout << postpoints[i][0] << ", " << postpoints[i][1]<<endl;
         }
 }
 void Func()
 {
+        glColor3f(0.0f,0.0f,0.0f);
 	originFunc();
-	myInit(255.0,0.0);
         glColor3f(0.0f,1.0f,1.0f);
         displayFunc(prepoints);
-        glEnd();
-        glFlush();
-
-        myInit(255.0, 0.0);
         glColor3f(0.0f,0.0f,1.0f);
         displayFunc(postpoints);
-        glEnd();
-        glFlush();
 }
 
 
@@ -331,8 +312,8 @@ void graphicMain(int argc, char* argv[])
 	prepoints[1][1]=50;
 	prepoints[2][0]=50;
 	prepoints[2][1]=5;
-		prepoints[3][0]=5;
-		prepoints[3][1]=5;
+	prepoints[3][0]=5;
+	prepoints[3][1]=5;
 
         for (int i = 0; i < NUMPOINTS; i++) {
                 P[0][i] = prepoints[i][0]*H;
@@ -344,13 +325,11 @@ void graphicMain(int argc, char* argv[])
         ops(ch);
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-        glutInitWindowSize(1000, 800);
+        glutInitWindowSize(400, 400);
         glutCreateWindow("T-R-S");
-	//Set the inital color of everything.       
- 	glColor3f(1.0f,0.0f,0.0f);
+        myInit(255.0,0.0);
         if (ch > 0 && ch < 6)
                 glutDisplayFunc(Func);
-        myInit(255.0, 0.0);
         glutMainLoop();
 }
 

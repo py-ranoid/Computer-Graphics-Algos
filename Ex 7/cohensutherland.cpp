@@ -144,6 +144,7 @@ void solver(){
         int x,y;
         points2TBRL(TBRL1,xstart,ystart);
         points2TBRL(TBRL2,xend,yend);
+        cout << "TBRL values : " <<endl;
         for (int i =0; i <4; i++) {
                 cout << TBRL1[i] << TBRL2[i]<<endl;
         }
@@ -174,6 +175,7 @@ void solver(){
                                         points2TBRL(TBRL1,xstart,ystart);
                                 }
                         }
+                        cout << "After clipping Start :"<<endl;
                         cout << "Start : "<< xstart << " " << ystart << endl;
                         cout << "End : "<<xend << " " << yend << endl;
                         // Checking if (xend,yend) is in window
@@ -193,12 +195,14 @@ void solver(){
                                         points2TBRL(TBRL2,xend,yend);
                                 }
                         }
+                        cout << "After clipping End :"<<endl;
                         cout << "Start : "<< xstart << " " << ystart << endl;
                         cout << "End : "<<xend << " " << yend << endl;
 
 
                 }
         }
+        cout << "Final points :"<<endl;
         cout << "Start : "<< xstart << " " << ystart << endl;
         cout << "End : "<<xend << " " << yend << endl;
 }

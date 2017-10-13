@@ -24,6 +24,10 @@ float P[4][NUMPOINTS], P1[4][NUMPOINTS];
 
 void drawBox(int ch)
 {
+        glColor3f(0.9, 0.3, 0.2);
+        glutSolidSphere(20,0,0);
+        glFlush();
+        /*
         float vertices[4][NUMPOINTS];
         if (ch == 0){
                 glColor3f(0.0f, 1.f, 1.0f);
@@ -48,7 +52,7 @@ void drawBox(int ch)
                         glVertex3fv(&v1[faces[i][3]][0]);
                         glEnd();
                 }
-        }
+        }*/
 }
 
 void drawAxes()
@@ -256,8 +260,6 @@ void ops(){
                           cout<<" \nEnter Theta : ";cin>>r;
                           if (axis_ch >=0 && axis_ch<=3)
                                 rotation(P,P1,r,axis_ch);
-                          else
-                                cout<<"\nWrong choice";
                           break;
                 default : cout << "Wrong choice";
         }

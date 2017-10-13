@@ -16,8 +16,8 @@ void myInit()
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
         glColor3f(1.0, 1.0, 1.01);
-        glPointSize(1);
-        gluOrtho2D(0, 100, 0, 100);
+        glPointSize(2);
+        gluOrtho2D(0, 200, 0, 200);
 }
 
 float circlefunc(float x,float y,float r){
@@ -64,18 +64,21 @@ void func()
 {
         cout << xcentre << ycentre << r;
         plotCircle(xcentre, ycentre, r);
+        plotCircle(xcentre, ycentre, r - 60);
+        plotCircle(xcentre, ycentre, r - 45);
+        plotCircle(xcentre, ycentre, r - 30);
+        plotCircle(xcentre, ycentre, r - 15);
 }
 
 int main(int argc, char * argv[])
 {
-        cout << "Enter circle centre coordinates (0,0 - 80,80)\n";
-        cout << "x: "; cin >> xcentre;
-        cout << "y: "; cin >> ycentre;
-        cout << "Radius: "; cin >> r;
+        xcentre = 100;
+        ycentre = 100;
+        r = 80;
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
         glutInitWindowSize(400, 400);
-        glutCreateWindow("Circle");
+        glutCreateWindow("Target");
         myInit();
         glutDisplayFunc(func);
         glutMainLoop();

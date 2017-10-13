@@ -11,7 +11,6 @@
 #define NUMPOINTS 10
 #define POINTSIZE 2
 
-//#include<glut/glut.h>
 using namespace std;
 void myInit()
 {
@@ -103,7 +102,7 @@ int main(int argc, char * argv[])
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
         glutInitWindowSize(WIN_WIDTH+VP_WIDTH, WIN_HEIGHT);
-        glutCreateWindow("Lines");
+        glutCreateWindow("Window to Viewport");
         myInit();
         glutDisplayFunc(func);
         glutMainLoop();
