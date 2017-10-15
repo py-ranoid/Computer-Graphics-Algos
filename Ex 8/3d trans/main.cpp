@@ -188,15 +188,11 @@ void display(void)
 void init(void)
 {
         /* Enable a single OpenGL light. */
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse); // Assigning light diffuse property to GL_LIGHT0 (colour)
         glLightfv(GL_LIGHT0, GL_POSITION, light_position); // Specify position of GL_LIGHT0 at light_position
         glEnable(GL_LIGHT0);                            // Enable GL_LIGHT0
         glEnable(GL_LIGHTING);                          // Enable all lighting
         glEnable(GL_COLOR_MATERIAL);
-        // Specify a white specular highlight
-        const GLfloat white[4] = { 1.f, 1.f, 1.f, 1.f };
-        glMaterialfv(GL_FRONT, GL_SPECULAR, white );
-        glMaterialf(GL_FRONT, GL_SHININESS, 20.f );
+
         /* Use depth buffering for hidden surface elimination. */
         glEnable(GL_DEPTH_TEST);
 
@@ -210,10 +206,6 @@ void init(void)
                   0.0, 0.0, 0.0,  /* center is at (0,0,0) */
                   0.0, 1.0, 0.);  /* up is in positive Y direction */
 
-        /* Adjust cube position to be asthetic angle. */
-        //glMatrixMode(GL_PROJECTION);
-        //glRotatef(60, 1.0, 0.0, 0.0);
-        //glRotatef(-20, 0.0, 0.0, 1.0);
 }
 
 void ops(){

@@ -62,9 +62,9 @@ void planet(float orbitmul, float thetaoffset, float thetamul, float r,float g, 
         float x = ORBITRADIUS * sin(theta*thetamul+thetaoffset) * orbitmul;
         float y = ORBITRADIUS * cos(theta*thetamul+thetaoffset) * orbitmul;
         glTranslatef(x,y,0);
+        glRotatef(theta,0,0,1);
         glColor3f(r, g, b);
         glutSolidSphere(BALLRADIUS*radiusmul,30,30);
-        glColor3f(0.8, 0.8, 0.8);
 }
 
 void display(void){
@@ -81,7 +81,9 @@ void display(void){
         z = 0;
         x = ORBITRADIUS * sin(theta);
         y = ORBITRADIUS * cos(theta);
+
         theta+=0.05;
+
         glTranslatef(x,y,z);
         glColor3f(0.9, 0.3, 0.2);
         glutSolidSphere(BALLRADIUS*0.5,30,30);
@@ -125,15 +127,19 @@ int main (int argc, char **argv)
         glutInit(&argc, argv);
         glutInitWindowSize(650,650);
         glutCreateWindow("Solid Sphere");
+
         float light_position[] = {-1.0, -1.0, -4.0, 0.0}; /* Infinite light location. */
         glLightfv(GL_LIGHT0, GL_POSITION, light_position); // Specify position of GL_LIGHT0 at light_position
         glEnable(GL_LIGHT0);                        // Enable GL_LIGHT0
         glEnable(GL_LIGHTING);                      // Enable all lighting
+
         glEnable(GL_COLOR_MATERIAL);
+
         glMatrixMode(GL_PROJECTION);
         gluPerspective( /* field of view in degree */ 60.0,
                                                       /* aspect ratio */ 1.0,
-                                                      /* Z near */ 1.0, /* Z far */ 500.0);
+                                                      /* Z near */ 1.0, /* Z far */ 300.0);
+        glMatrixMode(GL_MODELVIEW);
         gluLookAt(50.0, 50.0, 50.0, /* eye is at (0,0,5) */
                   0.0, 0.0, 0.0, /* center is at (0,0,0) */
                   0.0, 0.0, 1.0); /* up is in positive Y direction */
