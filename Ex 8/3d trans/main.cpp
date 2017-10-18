@@ -174,7 +174,11 @@ void init(void)
         glEnable(GL_LIGHT0);                            // Enable GL_LIGHT0
         glEnable(GL_LIGHTING);                          // Enable all lighting
         glEnable(GL_COLOR_MATERIAL);
+<<<<<<< HEAD
         // Specify a white specular highlight
+=======
+
+>>>>>>> e284c300d3a64d22e0a3b73010a05ae8ec6175e4
         /* Use depth buffering for hidden surface elimination. */
         glEnable(GL_DEPTH_TEST);
 

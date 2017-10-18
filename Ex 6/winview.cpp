@@ -86,7 +86,8 @@ void plot()
 
         glBegin(GL_LINE_LOOP);
         for(int i =0; i<NUMPOINTS; i++)
-                glVertex2d(round(points[i][0])*Xscale, (WIN_HEIGHT - VP_HEIGHT)/POINTSIZE + round(points[i][1])*Yscale);
+                glVertex2d(round(points[i][0])*Xscale,
+                                (WIN_HEIGHT - VP_HEIGHT)/POINTSIZE + round(points[i][1])*Yscale);
         glEnd();
 
         glFlush();

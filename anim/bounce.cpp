@@ -2,11 +2,11 @@
 #include "GL/gl.h"
 #include <math.h>
 #include <iostream>
-
 using namespace std;
 
 #define MAX 900.0f
 #define BALLRADIUS 18
+
 void init() {
 	glClearColor(1.0, 1.0, 0.0, 0.0);
 	glColor3f(0.0f, 0.0f, 0.0f);
