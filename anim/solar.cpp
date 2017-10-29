@@ -2,10 +2,12 @@
 #include "GL/gl.h"
 #include <iostream>
 #include <math.h>
+
 #define AXISLEN 40
 #define MAX 20.0f
 #define BALLRADIUS 5
 #define ORBITRADIUS 25
+
 GLfloat xRotated, yRotated, zRotated;
 GLdouble radius=1;
 using namespace std;
@@ -17,6 +19,7 @@ float magnitude = 10;
 
 
 void display(void);
+
 float circlefunc(float x,float y,float r){
         //return pow(x + 1.0,2) + pow(y + 0.5,2) - pow(y + 0.5,2);
         float val = pow(x + 1.0,2) + pow(y - 0.5,2) - pow(r,2);
@@ -58,6 +61,7 @@ void plotCircle(float xc, float yc, float r)
 }
 float x=0,y=0,z=0;
 float theta=0.0;
+
 void planet(float orbitmul, float thetaoffset, float thetamul, float r,float g, float b, float radiusmul) {
         float x = ORBITRADIUS * sin(theta*thetamul+thetaoffset) * orbitmul;
         float y = ORBITRADIUS * cos(theta*thetamul+thetaoffset) * orbitmul;
@@ -87,7 +91,6 @@ void display(void){
         glTranslatef(x,y,z);
         glColor3f(0.9, 0.3, 0.2);
         glutSolidSphere(BALLRADIUS*0.5,30,30);
-        glColor3f(0.8, 0.8, 0.8);
         glPopMatrix();
 
         // Venus
@@ -119,7 +122,7 @@ void display(void){
 
 void Timer(int value) {
         glutPostRedisplay();
-        glutTimerFunc(40, Timer, 0);
+        glutTimerFunc(80, Timer, 0);
 }
 
 int main (int argc, char **argv)

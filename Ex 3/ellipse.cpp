@@ -20,19 +20,19 @@ void myInit()
 }
 
 float ellfunc1(float x,float y,float rx,float ry){
-    //return pow(x + 1.0,2) + pow(y + 0.5,2) - pow(y + 0.5,2);
-    float rx2 = pow(rx,2);
-    float ry2 = pow(ry,2);
-    float val = pow(x + 1.0,2)*ry2 + pow(y - 0.5,2)*rx2 - rx2*ry2;
-    return val;
+        //Returns [(x + 1.0)^2 * ry^2] + [(y - 0.5)^2 * rx^2] - [ry^2 * rx^2];
+        float rx2 = pow(rx,2);
+        float ry2 = pow(ry,2);
+        float val = pow(x + 1.0,2)*ry2 + pow(y - 0.5,2)*rx2 - rx2*ry2;
+        return val;
 }
 
 float ellfunc2(float x,float y,float rx,float ry){
-    //return pow(x + 1.0,2) + pow(y + 0.5,2) - pow(y + 0.5,2);
-    float rx2 = pow(rx,2);
-    float ry2 = pow(ry,2);
-    float val = pow(x + 0.5,2)*ry2 + pow(y - 1,2)*rx2 - rx2*ry2;
-    return val;
+        //Returns [(x + 0.5)^2 * ry^2] + [(y - 1.0)^2 * rx^2] - [ry^2 * rx^2];
+        float rx2 = pow(rx,2);
+        float ry2 = pow(ry,2);
+        float val = pow(x + 0.5,2)*ry2 + pow(y - 1,2)*rx2 - rx2*ry2;
+        return val;
 }
 
 
@@ -40,40 +40,40 @@ void plotEllipse(float xc, float yc, float rx,float ry)
 {
         glClear(GL_COLOR_BUFFER_BIT);
         glBegin(GL_POINTS);
-        float x = 0.0;
-        float y = ry;
+        float x,y;
         float p;
-        for (;pow(ry,2)*x < pow(rx,2)*y;x++)
+        /* Region Boundary Calculation :
+                Ellipse Slope :
+                        dy/dx = - (2 * ry^2 * x) / (2 * rx^2 * y)
+                At region boundary, slope == -1
+                        Hence, (2 * ry^2 * x) = (2 * rx^2 * y)
+                                    ry^2 * x = rx^2 * y
+         */
+        for (x = 0.0, y = ry; pow(ry,2)*x < pow(rx,2)*y; x++)
         {
+                // Magnitude of slope is less than 1
+                // Taking unit steps in X until |slope| == 1
                 p = ellfunc1(x,y,rx,ry);
                 cout << p <<"\t"<<x<<"\t"<<y<<"\t"<<rx<<"\t"<<ry<<endl;
-                if ( p < 0){
-                        //x = x + 1;
-                        y = y;
-                }
-                else{
-                        //x = x + 1;
-                        y = y - 1;
-                }
+                if ( p >= 0)
+                        y -= 1;
+
                 glVertex2d(xc + x,yc + y);
                 glVertex2d(xc + x,yc - y);
                 glVertex2d(xc - x,yc + y);
                 glVertex2d(xc - x,yc - y);
         }
-        cout << "Switch"<<endl;
-        x=x-1;
-        for (;y>=0;y--)
+        // Switching to region 2
+        x -= 1;
+        for (; y>=0; y--)
         {
+                // Magnitude of slope is greater than 1
+                // Taking unit steps in Y when |slope| > 1
                 p = ellfunc2(x,y,rx,ry);
                 cout << p <<"\t"<<x<<"\t"<<y<<"\t"<<rx<<"\t"<<ry<<endl;
-                if ( p < 0){
+                if ( p < 0)
                         x = x + 1;
-                        //y = y;
-                }
-                else{
-                        x = x;
-                        //y = y - 1;
-                }
+
                 glVertex2d(xc + x,yc + y);
                 glVertex2d(xc + x,yc - y);
                 glVertex2d(xc - x,yc + y);

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "math.h"
 //#include<glut/glut.h>
+
 #define WIDTH 500.0     // Width of Clipping Area
 #define HEIGHT 500.0    // Height of Clipping Area
 #define VERPAD 100.0    // Vertical Padding
@@ -12,6 +13,7 @@
 using namespace std;
 bool TBRL1[4];          // Stores TBRL values of starting point
 bool TBRL2[4];          // Stores TBRL values of end point
+
 int xstart,ystart,xend,yend;
 int xstartinit,ystartinit,xendinit,yendinit;
 float slope;

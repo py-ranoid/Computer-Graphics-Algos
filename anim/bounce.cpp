@@ -72,7 +72,7 @@ void display(void) {
 }
 
 void Timer(int value) {
-        display();
+        glutPostRedisplay();
 	glutTimerFunc(1, Timer, 0);
 }
 

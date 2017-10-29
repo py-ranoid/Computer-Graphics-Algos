@@ -100,7 +100,7 @@ void shear(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], int ch, float sh, fl
                         float refmatrix[3][3] = {
                           {1,sh,-1*sh*yref},
                           {0, 1,         0},
-                          {0, 0,         0}};
+                          {0, 0,         1}};
 
                         matrixMul(refmatrix, P, newP);
                         break;
@@ -111,7 +111,7 @@ void shear(float P[3][NUMPOINTS], float newP[3][NUMPOINTS], int ch, float sh, fl
                         float refmatrix[3][3] = {
                           { 1, 0,         0},
                           {sh, 1,-1*sh*yref},
-                          { 0, 0,         0}};
+                          { 0, 0,         1}};
 
                         matrixMul(refmatrix, P, newP);
                         break;

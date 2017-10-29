@@ -38,12 +38,7 @@ void plotCircle(float xc, float yc, float r)
         {
                 p = circlefunc(x,y,r);
                 cout << p <<"\t"<<x<<"\t"<<y<<"\t"<<r<<endl;
-                if ( p < 0){
-                        //x = x + 1;
-                        y = y;
-                }
-                else{
-                        //x = x + 1;
+                if ( p >= 0){
                         y = y - 1;
                 }
                 glVertex2d(xc + x,yc + y);
