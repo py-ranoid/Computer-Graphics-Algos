@@ -23,7 +23,6 @@ e.g: With n by n pixels for each grid, on a bilevel system (ON or OFF) n^2 + 1 l
 ###Pixel Masks###
 * For the 3 by 3 pixel grid shown above, the following **pixel mask** can be used to generate it. ( an nxn matrix)
 
-> **The position number of the pixels is equivalent to the indices of the matrix.**
 >** The numbers of the  matrix represent the intensity levels.**
 <pre> 
 8 	3	7
