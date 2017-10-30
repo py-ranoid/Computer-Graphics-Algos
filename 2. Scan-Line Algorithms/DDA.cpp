@@ -6,11 +6,6 @@
 using namespace std;
 float xstart,xend,ystart,yend,m;
 int l2r;
-/*
-   Window Size : 400 x 400
-   Ortho Plane : 80 x 80
-   Point Size : 5 x 5
- */
 void myInit()
 {
         glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -19,8 +14,6 @@ void myInit()
         glPointSize(5);
         gluOrtho2D(0, 80, 0, 80);
 }
-
-
 
 void plotLine(float x1, float y1, float x2, float y2, int l2r = 1)
 {
