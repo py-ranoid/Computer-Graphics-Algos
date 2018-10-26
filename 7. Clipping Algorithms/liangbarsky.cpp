@@ -157,25 +157,7 @@ int main(int argc, char * argv[])
         xmax = (WIDTH + 2 * HORPAD)/POINTSIZE;
         ymax = (HEIGHT + 2 * VERPAD)/POINTSIZE;
         xmin = 0;
-        ymin = 0;                if (u1>u2){
-                                flag = 0;
-                                break;
-                        }
-                        else{
-                                xstarttemp = xstart + del_x * u1;
-                                ystarttemp = ystart + del_y * u1;
-
-                                xend = xstart + del_x * u2;
-                                yend = ystart + del_y * u2;
-
-                                xstart = xstarttemp;
-                                ystart = ystarttemp;
-                                break;
-                        }
-                cout << "Start : "<< xstart << " " << ystart << endl;
-                cout << "End : "<<xend << " " << yend << endl;
-
-
+        ymin = 0;  
         cout << "Start points (0,0 - "<<xmax<<","<<ymax<<")\n";
         cout << "x: "; cin >> xstart;
         cout << "y: "; cin >> ystart;
